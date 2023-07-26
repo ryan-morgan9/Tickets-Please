@@ -1,0 +1,31 @@
+html {
+  font-size: 14px;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+    margin-bottom: 60px;
+    background-image: linear-gradient(to bottom, #8babc9, #ffffff);
+}
+
+header {
+    background-color: #000000;
+}
+
+.bg-custom-color {
+    background-color: #000000 !important;
+}
+
+.footer {
+    background-color: #000000;
+}

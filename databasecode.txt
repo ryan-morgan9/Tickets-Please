@@ -1,0 +1,22 @@
+CREATE TABLE [dbo].[Bookings] (
+    [Id]              INT            IDENTITY (1, 1) NOT NULL,
+    [Show_Id]         INT            NOT NULL,
+    [User_Id]         NVARCHAR (450) NOT NULL,
+    [Ticket_Quantity] INT            NOT NULL,
+    [Cost]            INT            NOT NULL,
+    PRIMARY KEY CLUSTERED ([Id] ASC),
+    CONSTRAINT [FK_Bookings_Shows] FOREIGN KEY ([Show_Id]) REFERENCES [dbo].[Shows] ([Id]),
+    CONSTRAINT [FK_Bookings_Users] FOREIGN KEY ([User_Id]) REFERENCES [dbo].[AspNetUsers] ([Id])
+);
+
+CREATE TABLE [dbo].[Shows] (
+    [Id]       INT          IDENTITY (1, 1) NOT NULL,
+    [Title]    VARCHAR (50) NOT NULL,
+    [Date]     DATE         NOT NULL,
+    [Time]     TIME (7)     NOT NULL,
+    [City]     VARCHAR (50) NOT NULL,
+    [Venue]    VARCHAR (50) NOT NULL,
+    [Price]    FLOAT (53)   NOT NULL,
+    [Capacity] INT          NOT NULL,
+    PRIMARY KEY CLUSTERED ([Id] ASC)
+);

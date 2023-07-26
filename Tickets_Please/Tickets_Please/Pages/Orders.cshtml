@@ -1,0 +1,55 @@
+﻿@page
+@model Tickets_Please.Pages.OrdersModel
+@{
+    ViewData["Title"] = "All Orders";
+}
+
+<div class="card">
+    <div class="card-header">
+        <h3>All Orders</h3>
+    </div>
+    <div class="card-body">
+        @if (!Model.Bookings.Any())
+        {
+            <h3 class="text-center">No Bookings Made</h3>
+        }
+        else
+        {
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Date & Time</th>
+                            <th>Show Title</th>
+                            <th>Venue & City</th>
+                            <th>Quantity</th>
+                            <th>Cost</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var booking in Model.Bookings)
+                        {
+                            <tr>
+                                <td>@booking.Show.Date @booking.Show.Time</td>
+                                <td>@booking.Show.Title</td>
+                                <td>@booking.Show.Venue, @booking.Show.City</td>
+                                <td>@booking.Quantity Tickets</td>
+                                <td>£@booking.Cost</td>
+                                <td>
+                                    <form method="post" class="d-inline">
+                                        <input type="hidden" name="booking" id="booking" value="@booking.Id">
+                                        <input type="hidden" name="quantity" id="quantity" value="@booking.Quantity">
+                                        <input type="hidden" name="show_id" id="show_id" value="@booking.Show.Id">
+                                        <input type="hidden" name="capacity" id="capacity" value="@booking.Show.Capacity">
+                                        <button class="btn btn-danger" type="submit" name="action" value="Cancel">Cancel</button>
+                                    </form>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+    </div>
+</div>
