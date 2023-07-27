@@ -12,7 +12,6 @@ Customers can manage the orders they make (cancel their order) and admins can ma
 Just simply make an account with that email and admin privilages are automatically granted. Any other email used will default to the customer role.
 
 **TODO:**
-* **IMPORTANT** - comment all of the code for readability.
 * Allow customers to modify their orders (change number of tickets, etc).
 * Allow admins to modify shows (any of the show's details).
 * Allow admins to assign the admin role to default users (for adding more admins).
