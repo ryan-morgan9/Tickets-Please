@@ -42,6 +42,7 @@ namespace Tickets_Please.Pages
 
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
+                // Get details of selected showing from DB
                 connection.Open();
                 using SqlCommand command = new SqlCommand("SELECT * FROM dbo.Shows WHERE Id = @Show_Id", connection);
                 command.Parameters.Add("@Show_Id", SqlDbType.Int).Value = Convert.ToInt32(showing_id);
@@ -75,11 +76,11 @@ namespace Tickets_Please.Pages
 
             var capacity = Request.Form["capacity"].ToString();
 
+            // Calculates new capacity to update the number of tickets left for a showing
             var newCapacity = (Convert.ToInt32(capacity) - Convert.ToInt32(quantity));
-
-
+  
             string connectionString = _configuration.GetConnectionString("DefaultConnection");
-
+            // Create new booking in the DB
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 connection.Open();
@@ -93,7 +94,7 @@ namespace Tickets_Please.Pages
 
                 int insertBooking = command.ExecuteNonQuery();
             }
-
+            // Update showing with the number of tickets now left
             using (SqlConnection newconnection = new SqlConnection(connectionString))
             {
                 newconnection.Open();

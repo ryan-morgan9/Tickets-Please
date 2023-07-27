@@ -43,16 +43,19 @@ namespace Tickets_Please.Pages
 
                 if (city == "all")
                 {
+                    // Get shows from all cities
                     sqlQuery = "SELECT * FROM dbo.Shows";
                     command = new SqlCommand(sqlQuery, connection);
                 }
                 else
                 {
+                    // Get shows from selected city
                     sqlQuery = "SELECT * FROM dbo.Shows WHERE City = @City";
                     command = new SqlCommand(sqlQuery, connection);
                     command.Parameters.AddWithValue("@City", city);
                 }
 
+                // Retrieve details of all the selected shows into accessible list 
                 using SqlDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {
@@ -75,6 +78,7 @@ namespace Tickets_Please.Pages
 
         public IActionResult OnPost()
         {
+            // Send selected showing to booking page
             string Id = Request.Form["showing"];
             return RedirectToPage("/Booking", new { Id });
         }

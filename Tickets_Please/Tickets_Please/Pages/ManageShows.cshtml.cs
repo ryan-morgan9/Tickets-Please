@@ -35,6 +35,7 @@ namespace Tickets_Please.Pages
 
             Showings = new List<Show>();
 
+            // Get all showings from the DB to display on page
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 connection.Open();
@@ -68,7 +69,8 @@ namespace Tickets_Please.Pages
             var Show_Id = Request.Form["showing"].ToString();
             System.Diagnostics.Debug.WriteLine(Show_Id);
             string action = Request.Form["action"];
-
+            
+            // No implementation yet for modifying bookings
             if (action == "Modify")
             {
                
@@ -80,11 +82,12 @@ namespace Tickets_Please.Pages
                 using (SqlConnection connection = new SqlConnection(connectionString))
                 {
                     connection.Open();
-
+                    // Cancel any bookings for the show
                     using SqlCommand command1 = new SqlCommand("DELETE FROM dbo.Bookings WHERE Show_Id = @Show_Id", connection);
                     command1.Parameters.Add("@Show_Id", SqlDbType.Int).Value = Convert.ToInt32(Show_Id);
                     int deleteBookings = command1.ExecuteNonQuery();
-
+                    
+                    // Delete the show from DB
                     using SqlCommand command2 = new SqlCommand("DELETE FROM dbo.Shows WHERE Id = @Id", connection);
                     command2.Parameters.Add("@Id", SqlDbType.Int).Value = Convert.ToInt32(Show_Id);
                     int deleteShows = command2.ExecuteNonQuery();

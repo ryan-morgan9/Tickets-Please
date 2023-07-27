@@ -22,6 +22,7 @@ namespace Tickets_Please.Pages
         }
         public IActionResult OnPost() 
         {
+            // Get details of showing from form
             var title = Request.Form["title"].ToString();
             var date = Request.Form["date"].ToString();
             var time = Request.Form["time"].ToString();
@@ -32,6 +33,7 @@ namespace Tickets_Please.Pages
 
             string connectionString = _configuration.GetConnectionString("DefaultConnection");
 
+            // Insert new showing into the database
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 connection.Open();

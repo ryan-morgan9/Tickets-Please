@@ -46,6 +46,7 @@ namespace Tickets_Please.Pages
 
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
+                // Retrieve all bookings with the showing details using an inner join 
                 connection.Open();
                 using SqlCommand command = new SqlCommand(@"
                     SELECT B.Id, B.Show_Id, B.User_Id, B.Ticket_Quantity, B.Cost, S.Title, S.City, S.Venue, S.[Date], S.[Time], S.[Capacity]
@@ -57,7 +58,7 @@ namespace Tickets_Please.Pages
                 command.Parameters.Add("@User_Id", SqlDbType.NVarChar).Value = User.FindFirstValue(ClaimTypes.NameIdentifier).ToString();
 
                 Bookings = new List<Booking>();
-
+                // Get all bookings with the showing details stored inside
                 using SqlDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {
@@ -96,8 +97,10 @@ namespace Tickets_Please.Pages
             var quantity = Request.Form["quantity"].ToString();
             var action = Request.Form["action"].ToString();
 
+            // If user wants to cancel a booking
             if (action == "Cancel")
             {
+                // Calculate new capacity to revert the number of tickets available for the show
                 int updatedCapacity = (Convert.ToInt32(capacity) + Convert.ToInt32(quantity));
 
                 string connectionString = _configuration.GetConnectionString("DefaultConnection");
@@ -105,13 +108,13 @@ namespace Tickets_Please.Pages
                 using (SqlConnection connection = new SqlConnection(connectionString))
                 {
                     connection.Open();
-
+                    // Revert the number of tickets available for the show
                     using SqlCommand command1 = new SqlCommand("UPDATE dbo.Shows SET Capacity = @Capacity WHERE Id = @Show_Id;", connection);
                     command1.Parameters.Add("@Capacity", SqlDbType.Int).Value = Convert.ToInt32(updatedCapacity);
                     command1.Parameters.Add("@Show_Id", SqlDbType.Int).Value = Convert.ToInt32(Show_Id);
 
                     int updateShow = command1.ExecuteNonQuery();
-
+                    // Delete the booking
                     using SqlCommand command2 = new SqlCommand("DELETE FROM dbo.Bookings WHERE Id = @Id", connection);
                     command2.Parameters.Add("@Id", SqlDbType.Int).Value = Convert.ToInt32(booking);
 
@@ -122,6 +125,7 @@ namespace Tickets_Please.Pages
             }
             else if (action == "Modify")
             {
+                // NO IMPLEMENTATION YET FOR MODIFYING BOOKINGS
                 return Redirect("Orders");
             }
 

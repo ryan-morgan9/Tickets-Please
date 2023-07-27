@@ -23,8 +23,10 @@ namespace Tickets_Please.Pages
         {
             string connectionString = _configuration.GetConnectionString("DefaultConnection");
 
+            // List which enables access to cities from HTML
             Cities = new List<string>();
 
+            // Get all unique cities of where shows are located
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 connection.Open();
@@ -41,6 +43,7 @@ namespace Tickets_Please.Pages
 
         public IActionResult OnPost()
         {
+            // Send selected city to results page
             string city = Request.Form["city"];
             return RedirectToPage("Results", new { city });
         }
